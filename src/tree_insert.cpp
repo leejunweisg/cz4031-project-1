@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void Tree::insert(unsigned char key, Record *filePtr) {  //in Leaf Node
+void Tree::insert(unsigned int key, Record *filePtr) {  //in Leaf Node
     /*
 		1. If the node has an empty space, insert the key/reference pair into the node.
 		2. If the node is already full, split it into two nodes, distributing the keys
@@ -69,7 +69,7 @@ void Tree::insert(unsigned char key, Record *filePtr) {  //in Leaf Node
             }
         } else {
             // the current node is full, we have to split the node
-            vector<unsigned char> virtualNode(cursor->keys);
+            vector<int> virtualNode(cursor->keys);
             vector<vector<Record *>> virtualDataNode(cursor->pointer.pData);
 
             // find the correct position to insert it
@@ -157,7 +157,7 @@ void Tree::insertInternal(int x, Node **cursor, Node **child) {  //in Internal N
         }
     } else {  //splitting
         // the current node is full, we have to split the node
-        vector<unsigned char> virtualKeyNode((*cursor)->keys);
+        vector<int> virtualKeyNode((*cursor)->keys);
         vector<Node *> virtualTreePtrNode((*cursor)->pointer.pNode);
 
         // find the correct position to insert it

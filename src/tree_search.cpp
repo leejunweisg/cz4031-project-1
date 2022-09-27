@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<Record*>* Tree::search(int key) {
+vector<Record*>* Tree::search(unsigned int key) {
     /*
      * Searches the B+ tree for a key and returns the corresponding pointer to a vector of Record pointers.
      * If the key is not found in the tree, a nullptr is returned.

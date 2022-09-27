@@ -7,7 +7,7 @@
 class Node {
 public:
     bool isLeaf;
-    std::vector<unsigned char> keys;
+    std::vector<int> keys;
     Node *pNextLeaf;
 
     union ptr {
@@ -37,7 +37,7 @@ private:
     Node *firstLeftNode(Node *cursor);
 
 public:
-    Tree(int blockSize);
+    explicit Tree(int blockSize);
 
     Node *getRoot();
 
@@ -49,15 +49,21 @@ public:
 
     void display(Node *cursor);
 
+    void displaySingleNode(Node *cursor);
+
     void seqDisplay(Node *cursor);
 
-    std::vector<Record *> *search(int key);
+    std::vector<Record *> *search(unsigned int key);
 
-    void insert(unsigned char key, Record *filePtr);
+    void insert(unsigned int key, Record *filePtr);
 
     void removeKey(int key);
 
-    void removeInternal(int x, Node *cursor, Node *child);
+    void removeInternal(unsigned int x, Node *cursor, Node *child);
+
+    int countNodes();
+
+    int countDepth();
 };
 
 

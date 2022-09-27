@@ -1,9 +1,10 @@
 #include <iostream>
+#include <queue>
 #include "tree.h"
 
 using namespace std;
 
-Node *parent = NULL;
+Node *parent = nullptr;
 
 Node::ptr::ptr() {
 }
@@ -13,7 +14,7 @@ Node::ptr::~ptr() {
 
 Node::Node() {
     this->isLeaf = false;
-    this->pNextLeaf = NULL;
+    this->pNextLeaf = nullptr;
 }
 
 
@@ -21,15 +22,18 @@ Tree::Tree(int blockSize) {
     /*
      *  | |       | |       | |       | |       | |
      *  p - Each pointer is 8 bytes (64-bit address)
-     *  k - Each key is 1 byte (unsigned char)
+     *  k - Each key is 4 byte (unsigned int)
      *  n - Number of key-pointer pairs
      *  Total size of one block = p + n(p+k)
      *  n = (block_size - p) / (p+k)
+     *
+     *  This is just a simulation, in practice, the size of each Node is more complicated.
      */
-    int n = (blockSize - 8) / (8 + 1);
+    int n = (blockSize - 8) / (8 + 4);
     this->maxIntChildLimit = n + 1;
     this->maxLeafNodeLimit = n;
     this->root = nullptr;
+
     cout << "Instantiating B+ Tree" << endl;
     cout << " -> Nodes bounded by block size of = " << blockSize << endl;
     cout << " -> Maximum number of keys in a node: n = " << n << endl;
@@ -58,10 +62,10 @@ Node *Tree::firstLeftNode(Node *cursor) {
     if (cursor->isLeaf)
         return cursor;
     for (int i = 0; i < cursor->pointer.pNode.size(); i++)
-        if (cursor->pointer.pNode[i] != NULL)
+        if (cursor->pointer.pNode[i] != nullptr)
             return firstLeftNode(cursor->pointer.pNode[i]);
 
-    return NULL;
+    return nullptr;
 }
 
 Node **Tree::findParent(Node *cursor, Node *child) {
@@ -71,7 +75,7 @@ Node **Tree::findParent(Node *cursor, Node *child) {
 	*/
 
     if (cursor->isLeaf || cursor->pointer.pNode[0]->isLeaf)
-        return NULL;
+        return nullptr;
 
     for (int i = 0; i < cursor->pointer.pNode.size(); i++) {
         if (cursor->pointer.pNode[i] == child) {
@@ -87,4 +91,35 @@ Node **Tree::findParent(Node *cursor, Node *child) {
     return &parent;
 }
 
+int Tree::countNodes() {
+    Node *cursor = root;
+    int count = 0;
 
+    if (cursor == nullptr)
+        return count;
+
+    queue<Node *> q;
+    q.push(cursor);
+    count++;
+
+    while (!q.empty()) {
+        auto sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            Node *u = q.front();
+            q.pop();
+
+            if (!u->isLeaf) {
+                for (Node *v: u->pointer.pNode) {
+                    q.push(v);
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
+
+int Tree::countDepth() {
+    // todo: need to implement for experiment 2
+    return 1;
+}

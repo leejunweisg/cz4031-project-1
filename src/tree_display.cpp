@@ -47,6 +47,14 @@ void Tree::display(Node *cursor) {
     }
 }
 
+void Tree::displaySingleNode(Node *cursor){
+    if (cursor == nullptr) return;
+    for (unsigned int key: cursor->keys){
+        cout << key << " ";
+    }
+    cout << endl;
+}
+
 void Tree::seqDisplay(Node *cursor) {
     Node *firstLeft = firstLeftNode(cursor);
 

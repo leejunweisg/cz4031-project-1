@@ -136,7 +136,7 @@ int main() {
     // run experiment 1 and 2
     experiment12(&tree, &disk);
 
-    // run experiment 2
+    // run experiment 3
     experiment3(&tree, &disk);
 
     // run experiment 5

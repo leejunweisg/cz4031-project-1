@@ -77,10 +77,26 @@ Record *Disk::getRecord(size_t aBlockIdx, size_t aRecordIdx) {
      */
     size_t offset = (aBlockIdx * blockSize) + (aRecordIdx * sizeof(Record));
     return reinterpret_cast<Record *>(pMemAddress + offset);
+
 }
 
 void Disk::printRecord(Record *record) {
     printf("%s / %.1f / %u\n", record->tconst, (float) record->averageRating / 10, record->numVotes);
+}
+
+int Disk::getBlockId(Record *record) {
+    unsigned char *cursor = pMemAddress;
+
+    for ( int currBlockId = 0; currBlockId < maxBlocksInDisk; currBlockId++){
+        for (int currRecordId = 0; currRecordId < maxRecordsPerBlock; currRecordId++) {
+            if (record == reinterpret_cast<Record *>(cursor + (currRecordId * sizeof(Record)))) {
+                // return blockId
+                return currBlockId;
+            }
+        }
+        // move cursor to next block
+       cursor = pMemAddress + ((currBlockId + 1) * blockSize);
+    }
 }
 
 void Disk::printBlock(size_t aBlockIdx) {

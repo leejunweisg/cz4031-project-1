@@ -50,6 +50,14 @@ int Tree::getMaxLeafNodeLimit() {
     return maxLeafNodeLimit;
 }
 
+int Tree::getNumIndexNodesAccessed() {
+    return numIndexNodesAccessed;
+}
+
+void Tree::setNumIndexNodesAccessed(int setNumber) {
+    numIndexNodesAccessed = setNumber;
+}
+
 Node *Tree::getRoot() {
     return this->root;
 }
@@ -121,5 +129,23 @@ int Tree::countNodes() {
 
 int Tree::countDepth() {
     // todo: need to implement for experiment 2
-    return 1;
+    int numOfLevels = 0;
+
+    if (root == nullptr) {
+        return 0;
+    } else {
+        // start the cursor at the root node
+        Node *cursor = root;
+
+        // traverse to the leaf node
+        while (!cursor->isLeaf) {
+            numOfLevels += 1;
+
+            cursor = cursor->pointer.pNode[0];
+        }
+
+        // count leaf nodes level
+        numOfLevels += 1;
+    }
+    return numOfLevels;
 }

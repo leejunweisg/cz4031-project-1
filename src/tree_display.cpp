@@ -52,7 +52,7 @@ void Tree::displaySingleNode(Node *cursor){
     for (unsigned int key: cursor->keys){
         cout << key << " ";
     }
-    cout << endl;
+    cout << "<<<End of node>>>" << endl;
 }
 
 void Tree::seqDisplay(Node *cursor) {

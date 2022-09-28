@@ -31,6 +31,8 @@ public:
 
     void printRecord(Record *record);
 
+    int getBlockId(Record *record);
+
     void printBlock(size_t aBlockIdx);
 
     // misc

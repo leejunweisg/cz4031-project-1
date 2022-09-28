@@ -85,6 +85,26 @@ void experiment3 (Tree* tree, Disk* disk) {
     cout << "result size: " << resultSize << endl;
     cout << "Average of ave rating: " << totalAveRating/resultSize << endl;
 
+    // print first 5 data blocks accessed
+    for (int i = 0; i < 5; i++){
+        disk->printBlock(disk->getBlockId(result->at(i)));
+    }
+
+    vector<int> blockIdList;
+
+    // push block id of records into a list
+    for (int i = 0; i < result->size(); i++){
+        blockIdList.push_back(disk->getBlockId(result->at(i)));
+    }
+
+    cout << "Number of records accessed: " << result->size() << endl;
+    cout << "Number of entries in blockIdList(before removing duplicate): " << blockIdList.size() << endl;
+
+    // sort and remove duplicate blockId
+    sort(blockIdList.begin(),blockIdList.end());
+    blockIdList.erase(unique(blockIdList.begin(),blockIdList.end()),blockIdList.end());
+    cout << "Number of data blocks accessed(unique): " << blockIdList.size() << endl;
+
     // reset number of index nodes accessed
     tree->setNumIndexNodesAccessed(0);
 }

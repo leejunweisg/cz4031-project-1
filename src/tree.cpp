@@ -50,6 +50,14 @@ int Tree::getMaxLeafNodeLimit() {
     return maxLeafNodeLimit;
 }
 
+int Tree::getNumIndexNodesAccessed() {
+    return numIndexNodesAccessed;
+}
+
+void Tree::setNumIndexNodesAccessed(int setNumber) {
+    numIndexNodesAccessed = setNumber;
+}
+
 Node *Tree::getRoot() {
     return this->root;
 }

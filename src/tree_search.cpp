@@ -1,11 +1,12 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 #include "dtypes.h"
 #include "tree.h"
 
 using namespace std;
 
-vector<Record*>* Tree::search(unsigned int key) {
+vector<Record*>* Tree::search(unsigned int key, bool printNode) {
     /*
      * Searches the B+ tree for a key and returns the corresponding pointer to a vector of Record pointers.
      * If the key is not found in the tree, a nullptr is returned.
@@ -21,6 +22,13 @@ vector<Record*>* Tree::search(unsigned int key) {
         // traverse to the leaf node
         while (!cursor->isLeaf) {
             int idx = upper_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
+
+            numIndexNodesAccessed += 1;
+
+            if (printNode == true){
+                displaySingleNode(cursor);
+            }
+
             cursor = cursor->pointer.pNode[idx];
         }
 

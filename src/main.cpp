@@ -14,7 +14,7 @@ void experiment12(Tree* tree, Disk* disk){
      *  -> Insert record into disk
      *  -> Build B+ tree with numVotes attribute
      */
-    cout << "EXPERIMENT 1 AND 2" << endl;
+    cout << "======EXPERIMENT 1 AND 2======" << endl;
 
     // declare pointer to hold newly created records
     Record *new_record = nullptr;
@@ -59,6 +59,51 @@ void experiment12(Tree* tree, Disk* disk){
     (*tree).displaySingleNode((*tree).getRoot());
     cout << " -> Content of root's first child node: ";
     (*tree).displaySingleNode((*tree).getRoot()->pointer.pNode[0]);
+
+    // reset number of index nodes accessed
+    tree->setNumIndexNodesAccessed(0);
+}
+
+void experiment3 (Tree* tree, Disk* disk) {
+    cout << "======EXPERIMENT 3======" << endl;
+
+    cout << "Index Nodes accessed: " << endl;
+    vector<Record*>* result = tree->search(500, true);
+
+    int resultSize = result->size();
+    int totalAveRating = 0;
+
+    for (int i = 0; i < result->size(); i++){
+        totalAveRating += result->at(i)->averageRating;
+        // disk->printRecord(result->at(i));
+    }
+
+    int numIndexNodesAccessed = tree->getNumIndexNodesAccessed();
+
+    cout << "Number of Index Nodes Accessed: " << numIndexNodesAccessed << endl;
+    cout << "total ave rating: " << totalAveRating << endl;
+    cout << "result size: " << resultSize << endl;
+    cout << "Average of ave rating: " << totalAveRating/resultSize << endl;
+
+    // reset number of index nodes accessed
+    tree->setNumIndexNodesAccessed(0);
+}
+
+void experiment5 (Tree* tree, Disk* disk) {
+    cout << "======EXPERIMENT 5======" << endl;
+
+    // tree->removeKey(1000);
+
+    vector<Record*>* result = tree->search(1000, false);
+
+    cout << "result size: " << result->size();
+
+    for (int i = 0; i < result->size(); i++){
+        disk->printRecord(result->at(i));
+    }
+
+    // reset number of index nodes accessed
+    tree->setNumIndexNodesAccessed(0);
 }
 
 int main() {
@@ -72,6 +117,11 @@ int main() {
     experiment12(&tree, &disk);
 
     // run experiment 2
+    experiment3(&tree, &disk);
+
+    // run experiment 5
+    // experiment5(&tree, &disk);
+
 
 
     cout << "End of program! " << endl;

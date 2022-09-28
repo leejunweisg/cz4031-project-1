@@ -16,12 +16,12 @@ void Tree::insert(unsigned int key, Record *filePtr) {  //in Leaf Node
 	*/
 
     // search the tree for the key
-    vector<Record *> *result = search(key);
+    vector<Record *> *result = search(key, false);
 
     // if the key exists, simply add the current Record pointer to the existing vector and return
     if (result != nullptr) {
         (*result).push_back(filePtr);
-        result = search(key);
+        result = search(key, false);
         return;
     }
 

@@ -28,6 +28,7 @@ class Tree {
 private:
     int maxIntChildLimit;
     int maxLeafNodeLimit;
+    int numIndexNodesAccessed;
     Node *root;
 
     void insertInternal(int x, Node **cursor, Node **child);
@@ -45,6 +46,10 @@ public:
 
     int getMaxLeafNodeLimit();
 
+    int getNumIndexNodesAccessed();
+
+    void setNumIndexNodesAccessed(int setNumber);
+
     void setRoot(Node *);
 
     void display(Node *cursor);
@@ -53,7 +58,7 @@ public:
 
     void seqDisplay(Node *cursor);
 
-    std::vector<Record *> *search(unsigned int key);
+    std::vector<Record *> *search(unsigned int key, bool printNode);
 
     void insert(unsigned int key, Record *filePtr);
 

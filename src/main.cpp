@@ -42,7 +42,7 @@ void experiment12(Tree *tree, Disk *disk) {
         // insert into disk
         new_record = (*disk).insertRecord(tconst,
                                           (unsigned char) (stof(averageRating) * 10),
-                                          (unsigned int) stoi(numVotes));
+                                          stoi(numVotes));
         // insert into tree
         (*tree).insert(new_record->numVotes, new_record);
         count++;
@@ -115,6 +115,96 @@ void experiment3(Tree *tree, Disk *disk) {
     cout << "===========================================" << endl;
 }
 
+void experiment4(Tree *tree, Disk *disk) {
+    cout << "EXPERIMENT 4" << endl;
+
+    int key1 = 30000;
+    int key2 = 40000;
+
+    // search for the leaf node that the key1 should reside in (it may not exist)
+    cout << " -> Index Nodes accessed (first 5):" << endl;
+    Node *cursor = tree->searchNode(key1, true);
+
+    int indexNodesAccessed = tree->getNumIndexNodesAccessed();
+    int total_average_rating = 0;
+    int idx = lower_bound(cursor->keys.begin(), cursor->keys.end(), key1) - cursor->keys.begin();
+
+    // store all block numbers of the records into a vector
+    vector<size_t> blockIDList;
+
+    bool finished = false;
+    while (cursor != nullptr && !finished) {
+        // print the current leaf node (at the cursor)
+        if (indexNodesAccessed <= 5) {
+            tree->displaySingleNode(cursor);
+        }
+
+        indexNodesAccessed++;
+
+        // iterate through pointers in the current leaf node
+        for (int i = idx; i < cursor->keys.size(); i++) {
+
+            // when upper bound of the key is reached
+            if (cursor->keys.at(i) > key2) {
+                finished = true;
+                break;
+            }
+
+            assert(key1 <= cursor->keys.at(i));
+            assert(key2 >= cursor->keys.at(i));
+
+            // iterate through the records vector to
+            for (Record *record: cursor->pointer.pData.at(i)) {
+                // detect abnormal lines, print debugging info
+                if ((record->numVotes < key1) || (record->numVotes > key2)) {
+                    cout << "!!!!!! Abnormal record found !!!!!!" << endl;
+                    disk->printRecord(record);
+                    cout << "Current key: " << cursor->keys.at(i) << endl;
+                    cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+                    continue;
+
+                }
+                // accumulate the total averageRating
+                total_average_rating += record->averageRating;
+
+                // store the block ID accessed
+                blockIDList.push_back(disk->getBlockId(record));
+            }
+        }
+
+        // reset idx to 0
+        idx = 0;
+
+        // move to the next leaf node
+        cursor = cursor->pNextLeaf;
+    }
+
+    cout << " -> No of Index Nodes Accessed: " << indexNodesAccessed << endl;
+
+    // print content of first 5 data blocks accessed
+    cout << " -> Data Blocks accessed: " << endl;
+    for (int i = 0; i < 5 && i < blockIDList.size(); i++) {
+        disk->printBlock(blockIDList.at(i));
+    }
+
+    // remove duplicates by inserting blockIDs into a set
+    set<size_t> s;
+    for (size_t blkID: blockIDList) {
+        s.insert(blkID);
+    }
+
+    // print number of data blocks accessed
+    cout << " -> No of Data blocks accessed: " << blockIDList.size() << endl;
+    cout << " -> No of unique Data blocks accessed: " << s.size() << endl;
+
+    // compute and print average of "averageRating"
+    cout << " -> Average of averageRating: " << ((float) total_average_rating / 10) / blockIDList.size() << endl;
+
+    tree->setNumIndexNodesAccessed(0);
+
+    cout << "===========================================" << endl;
+}
+
 void experiment5(Tree *tree, Disk *disk) {
     cout << "EXPERIMENT 5" << endl;
 
@@ -157,9 +247,11 @@ int main() {
     // run experiment 3
     experiment3(&tree, &disk);
 
+    // run experiment 4
+    experiment4(&tree, &disk);
+
     // run experiment 5
     experiment5(&tree, &disk);
-
 
     cout << "End of program! " << endl;
 }

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void Tree::insert(unsigned int key, Record *filePtr) {  //in Leaf Node
+void Tree::insert(int key, Record *filePtr) {  //in Leaf Node
     /*
 		1. If the node has an empty space, insert the key/reference pair into the node.
 		2. If the node is already full, split it into two nodes, distributing the keys
@@ -21,7 +21,6 @@ void Tree::insert(unsigned int key, Record *filePtr) {  //in Leaf Node
     // if the key exists, simply add the current Record pointer to the existing vector and return
     if (result != nullptr) {
         (*result).push_back(filePtr);
-        result = search(key, false);
         return;
     }
 

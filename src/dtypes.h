@@ -9,7 +9,7 @@
 struct Record {
     char tconst[11];
     unsigned char averageRating;
-    unsigned int numVotes;
+    int numVotes;
 };
 
 #endif

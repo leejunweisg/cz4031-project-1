@@ -31,7 +31,7 @@ Disk::Disk(size_t aDiskSize, size_t aBlockSize) {
 
 }
 
-Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, unsigned int numVotes) {
+Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, int numVotes) {
     /*
         * Inserts a record at the next available memory location pointed by blockIdx and recordIdx
         *
@@ -80,7 +80,7 @@ Record *Disk::getRecord(size_t aBlockIdx, size_t aRecordIdx) {
 }
 
 void Disk::printRecord(Record *record) {
-    printf("%s / %.1f / %u\n", record->tconst, (float) record->averageRating / 10, record->numVotes);
+    printf("%s / %.1f / %d\n", record->tconst, (float) record->averageRating / 10, record->numVotes);
 }
 
 size_t Disk::getBlockId(Record *record) {

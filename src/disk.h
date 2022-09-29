@@ -25,7 +25,7 @@ public:
     Disk(size_t aDiskSize, size_t aBlockSize);
 
     // functions
-    Record *insertRecord(const std::string &tconst, unsigned char avgRating, unsigned int numVotes);
+    Record *insertRecord(const std::string &tconst, unsigned char avgRating, int numVotes);
 
     Record *getRecord(size_t aBlockIdx, size_t aRecordIdx);
 

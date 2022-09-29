@@ -58,13 +58,15 @@ public:
 
     void seqDisplay(Node *cursor);
 
-    std::vector<Record *> *search(unsigned int key, bool printNode);
+    std::vector<Record *> *search(int key, bool printNode);
 
-    void insert(unsigned int key, Record *filePtr);
+    Node *searchNode(int key, bool printNode);
+
+    void insert(int key, Record *filePtr);
 
     void removeKey(int key);
 
-    void removeInternal(unsigned int x, Node *cursor, Node *child);
+    void removeInternal(int x, Node *cursor, Node *child);
 
     int countNodes();
 

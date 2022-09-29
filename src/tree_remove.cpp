@@ -157,7 +157,7 @@ void Tree::removeKey(int x) {
 
 }
 
-void Tree::removeInternal(unsigned int x, Node *cursor, Node *child) {
+void Tree::removeInternal(int x, Node *cursor, Node *child) {
     Node *root = getRoot();
 
     // check if the key to be deleted is in the root

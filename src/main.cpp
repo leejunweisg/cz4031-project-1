@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include "dtypes.h"
 
 using namespace std;
 
@@ -108,33 +110,50 @@ void experiment3 (Tree* tree, Disk* disk) {
     // reset number of index nodes accessed
     tree->setNumIndexNodesAccessed(0);
 }
+void experiment4 (Tree* tree, Disk* disk,int key1 ,int key2) {
+    cout << "======EXPERIMENT 4======" << endl;
+        Node* result = tree->searchRange(key1);
+        (*tree).displaySingleNode(result);
 
+        int count=0;
+        int i = 0;
+        int total_average_rating=0;
+        int idx=lower_bound(result->keys.begin(), result->keys.end(), key1) - result->keys.begin();
+        vector<Record *> record;
+//        for (int x=0;x<5;x++) { //e first 5 index nodes or data blocks
+//            record = tree->searchRange(key1)->pointer.pData[idx+x];
+//            disk->printBlock(disk->getBlockId(record.at(0)));
+//        }
+
+        while(result->keys.at(i+idx)<key2) {
+            record = result->pointer.pData[idx+i];
+            count++;
+            total_average_rating+=record.at(0)->averageRating;
+            disk->printRecord(record.at(0)); //print records
+            i++;
+            if(idx+i==21){
+                //disk->printBlock(disk->getBlockId(record.at(0))); //print record range from key1 to key 2
+                i=0;
+                idx=0;
+                result=result->pNextLeaf;
+            }
+        }
+
+        cout << "Number of Index Nodes Accessed: " << count << endl;
+        cout << "total average rating value: " << total_average_rating << endl;
+        cout << "Average of Total AverageRating: " << total_average_rating/count/10.0 << endl;
+}
 void experiment5 (Tree* tree, Disk* disk) {
     cout << "======EXPERIMENT 5======" << endl;
 
-    // the original num of nodes in the tree
-    int numNodes = tree->countNodes();
-
-    tree->removeKey(1000);
-
-    int numUpdatedNodes = tree->countNodes();
+    // tree->removeKey(1000);
 
     vector<Record*>* result = tree->search(1000, true);
 
-    cout << "Number of times that a node is deleted (or two nodes are merged): " << numNodes - numUpdatedNodes << endl;
-    cout << "Number of nodes in the updated B+ tree: " << numUpdatedNodes << endl;
-    cout << "Height of the updated B+ tree: " << tree->countDepth() << endl;
-    cout << "root node of the updated B+ tree: " << endl;
-    tree->displaySingleNode(tree->getRoot());
-    cout << "first child node of the updated B+ tree: " << endl;
-    tree->displaySingleNode(tree->getRoot()->pointer.pNode[0]);
+    cout << "result size: " << result->size();
 
-    if (result != nullptr) {
-        cout << "result size: " << result->size() << endl;
-
-        for (int i = 0; i < result->size(); i++){
-            disk->printRecord(result->at(i));
-        }
+    for (int i = 0; i < result->size(); i++){
+        disk->printRecord(result->at(i));
     }
 
     // reset number of index nodes accessed
@@ -152,10 +171,13 @@ int main() {
     experiment12(&tree, &disk);
 
     // run experiment 3
-    experiment3(&tree, &disk);
+    //experiment3(&tree, &disk);
+
+    // run experiment 4
+    experiment4(&tree, &disk, 30000,40000);
 
     // run experiment 5
-    experiment5(&tree, &disk);
+    // experiment5(&tree, &disk);
 
 
 

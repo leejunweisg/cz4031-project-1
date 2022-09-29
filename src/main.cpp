@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <set>
+#include <assert.h>
 
 using namespace std;
 
@@ -117,30 +118,25 @@ void experiment3(Tree *tree, Disk *disk) {
 void experiment5(Tree *tree, Disk *disk) {
     cout << "EXPERIMENT 5" << endl;
 
-    // the original num of nodes in the tree
+    // original number of nodes in the tree
     int numNodes = tree->countNodes();
 
     tree->removeKey(1000);
 
+    // current number of nodes after removal of key=100
     int numUpdatedNodes = tree->countNodes();
 
-    vector<Record *> *result = tree->search(1000, true);
-
-    cout << "Number of times that a node is deleted (or two nodes are merged): " << numNodes - numUpdatedNodes << endl;
-    cout << "Number of nodes in the updated B+ tree: " << numUpdatedNodes << endl;
-    cout << "Height of the updated B+ tree: " << tree->countDepth() << endl;
-    cout << "root node of the updated B+ tree: " << endl;
+    cout << " -> No of times that a node is deleted (or two nodes are merged): " << numNodes - numUpdatedNodes << endl;
+    cout << " -> No of nodes in the updated B+ tree: " << numUpdatedNodes << endl;
+    cout << " -> Height of the updated B+ tree: " << tree->countDepth() << endl;
+    cout << " -> Content of root node: ";
     tree->displaySingleNode(tree->getRoot());
-    cout << "first child node of the updated B+ tree: " << endl;
+    cout << " -> Content of root's first child node: ";
     tree->displaySingleNode(tree->getRoot()->pointer.pNode[0]);
 
-    if (result != nullptr) {
-        cout << "result size: " << result->size() << endl;
-
-        for (int i = 0; i < result->size(); i++) {
-            disk->printRecord(result->at(i));
-        }
-    }
+    // verify that the key has been deleted
+    vector<Record *> *result = tree->search(1000, false);
+    assert(result == nullptr);
 
     // reset number of index nodes accessed
     tree->setNumIndexNodesAccessed(0);

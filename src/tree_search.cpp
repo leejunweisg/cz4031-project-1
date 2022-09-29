@@ -23,14 +23,24 @@ vector<Record*>* Tree::search(unsigned int key, bool printNode) {
         while (!cursor->isLeaf) {
             int idx = upper_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
 
-            numIndexNodesAccessed += 1;
+            // count accesses for intermediate internal nodes
+            numIndexNodesAccessed++;
 
-            if (printNode == true){
+            // print intermediate internal nodes
+            if (printNode){
                 displaySingleNode(cursor);
             }
 
             cursor = cursor->pointer.pNode[idx];
         }
+
+        // print the leaf node
+        if (printNode){
+            displaySingleNode(cursor);
+        }
+
+        // count the access for the leaf node
+        numIndexNodesAccessed++;
 
         // binary search of the keys in the leaf node
         int idx = lower_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();

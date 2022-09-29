@@ -47,12 +47,18 @@ void Tree::display(Node *cursor) {
     }
 }
 
-void Tree::displaySingleNode(Node *cursor){
+void Tree::displaySingleNode(Node *cursor) {
+    // return if node is null
     if (cursor == nullptr) return;
-    for (unsigned int key: cursor->keys){
-        cout << key << " ";
+
+    // print keys of the node
+    cout << "{";
+    for (auto i = 0; i < cursor->keys.size(); i++) {
+        cout << cursor->keys.at(i);
+        if (i != cursor->keys.size() - 1)
+            cout << ", ";
     }
-    cout << "<<<End of node>>>" << endl;
+    cout << "}" << endl;
 }
 
 void Tree::seqDisplay(Node *cursor) {

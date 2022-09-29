@@ -128,7 +128,6 @@ int Tree::countNodes() {
 }
 
 int Tree::countDepth() {
-    // todo: need to implement for experiment 2
     int numOfLevels = 0;
 
     if (root == nullptr) {
@@ -139,13 +138,12 @@ int Tree::countDepth() {
 
         // traverse to the leaf node
         while (!cursor->isLeaf) {
-            numOfLevels += 1;
-
+            numOfLevels++;
             cursor = cursor->pointer.pNode[0];
         }
 
         // count leaf nodes level
-        numOfLevels += 1;
+        numOfLevels++;
     }
     return numOfLevels;
 }

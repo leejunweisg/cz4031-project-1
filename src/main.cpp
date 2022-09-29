@@ -112,14 +112,29 @@ void experiment3 (Tree* tree, Disk* disk) {
 void experiment5 (Tree* tree, Disk* disk) {
     cout << "======EXPERIMENT 5======" << endl;
 
-    // tree->removeKey(1000);
+    // the original num of nodes in the tree
+    int numNodes = tree->countNodes();
 
-    vector<Record*>* result = tree->search(1000, false);
+    tree->removeKey(1000);
 
-    cout << "result size: " << result->size();
+    int numUpdatedNodes = tree->countNodes();
 
-    for (int i = 0; i < result->size(); i++){
-        disk->printRecord(result->at(i));
+    vector<Record*>* result = tree->search(1000, true);
+
+    cout << "Number of times that a node is deleted (or two nodes are merged): " << numNodes - numUpdatedNodes << endl;
+    cout << "Number of nodes in the updated B+ tree: " << numUpdatedNodes << endl;
+    cout << "Height of the updated B+ tree: " << tree->countDepth() << endl;
+    cout << "root node of the updated B+ tree: " << endl;
+    tree->displaySingleNode(tree->getRoot());
+    cout << "first child node of the updated B+ tree: " << endl;
+    tree->displaySingleNode(tree->getRoot()->pointer.pNode[0]);
+
+    if (result != nullptr) {
+        cout << "result size: " << result->size() << endl;
+
+        for (int i = 0; i < result->size(); i++){
+            disk->printRecord(result->at(i));
+        }
     }
 
     // reset number of index nodes accessed
@@ -140,7 +155,7 @@ int main() {
     experiment3(&tree, &disk);
 
     // run experiment 5
-    // experiment5(&tree, &disk);
+    experiment5(&tree, &disk);
 
 
 

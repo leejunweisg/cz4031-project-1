@@ -102,11 +102,11 @@ void experiment3(Tree *tree, Disk *disk) {
     cout << " -> No of unique Data blocks accessed: " << s.size() << endl;
 
     // compute average of "averageRating"
-    int total = 0;
+    unsigned int total = 0;
     for (Record *record: (*result)) {
         total += record->averageRating;
     }
-    cout << " -> Average of averageRating: " << total / result->size() << endl;
+    cout << " -> Average of averageRating: " << ((float) total / 10) / result->size() << endl;
 
     // reset number of index nodes accessed
     tree->setNumIndexNodesAccessed(0);

@@ -127,14 +127,14 @@ void experiment4 (Tree* tree, Disk* disk,int key1 ,int key2) {
 
         while(result->keys.at(i+idx)<key2) {
             record = result->pointer.pData[idx+i];
-            count++;
             total_average_rating+=record.at(0)->averageRating;
             //print records
             for (int i = 0; i < record.size(); i++){
                 disk->printRecord(record.at(i));
+                count++;
             }
             i++;
-            if(idx+i==21){
+            if(idx+i==result->keys.size() ){
                 //disk->printBlock(disk->getBlockId(record.at(0))); //print record range from key1 to key 2
                 i=0;
                 idx=0;

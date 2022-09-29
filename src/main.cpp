@@ -113,33 +113,38 @@ void experiment3 (Tree* tree, Disk* disk) {
 void experiment4 (Tree* tree, Disk* disk,int key1 ,int key2) {
     cout << "======EXPERIMENT 4======" << endl;
         Node* result = tree->searchRange(key1);
-        (*tree).displaySingleNode(result);
+        //(*tree).displaySingleNode(result);
 
         int count=0;
         int i = 0;
         int total_average_rating=0;
         int idx=lower_bound(result->keys.begin(), result->keys.end(), key1) - result->keys.begin();
         vector<Record *> record;
-//        for (int x=0;x<5;x++) { //e first 5 index nodes or data blocks
-//            record = tree->searchRange(key1)->pointer.pData[idx+x];
-//            disk->printBlock(disk->getBlockId(record.at(0)));
-//        }
+        //print first 5 data blocks accessed
+        for (int x=0;x<5;x++) { //e first 5 index nodes or data blocks
+            record = tree->searchRange(key1)->pointer.pData[idx+x];
+            disk->printBlock(disk->getBlockId(record.at(0)));
+        }
 
         while(result->keys.at(i+idx)<key2) {
             record = result->pointer.pData[idx+i];
-            total_average_rating+=record.at(0)->averageRating;
             //print records
-            for (int i = 0; i < record.size(); i++){
-                disk->printRecord(record.at(i));
-                count++;
+            for (int x = 0; x < record.size(); x++){
+                if (record.at(x)->numVotes<=key2) {
+                    //disk->printRecord(record.at(x));
+                    total_average_rating += record.at(x)->averageRating;
+                    count++;
+                }
             }
             i++;
-            if(idx+i==result->keys.size() ){
-                //disk->printBlock(disk->getBlockId(record.at(0))); //print record range from key1 to key 2
+            if(idx+i==result->keys.size()){
+                //print record range from key1 to key 2
+                //disk->printBlock(disk->getBlockId(record.at(0)));
                 i=0;
                 idx=0;
                 result=result->pNextLeaf;
             }
+
         }
 
         cout << "Number of Index Nodes Accessed: " << count << endl;

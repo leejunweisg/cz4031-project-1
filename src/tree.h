@@ -69,6 +69,8 @@ public:
     int countNodes();
 
     int countDepth();
+    
+    Node * searchRange(unsigned int key);
 };
 
 

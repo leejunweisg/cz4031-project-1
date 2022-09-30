@@ -6,7 +6,7 @@
 
 class Node {
 public:
-    bool isLeaf;
+    bool isLeafNode;
     std::vector<int> keys;
     Node *pNextLeaf;
 
@@ -26,51 +26,52 @@ public:
 
 class Tree {
 private:
-    int maxIntChildLimit;
-    int maxLeafNodeLimit;
-    int numIndexNodesAccessed;
-    Node *root;
+    int maxIntChildNum;
+    int maxLeafNodeNum;
+    int nodesAccessedNum;
+    Node *rootNode;
 
-    void insertInternal(int x, Node **cursor, Node **child);
+    void insertInternal(int x, Node **currentNode, Node **child);
 
-    Node **findParent(Node *cursor, Node *child);
+    Node **findParentNode(Node *currentNode, Node *child);
 
-    Node *firstLeftNode(Node *cursor);
+    Node *firstLeftNode(Node *currentNode);
 
 public:
     explicit Tree(int blockSize);
 
     Node *getRoot();
 
-    int getMaxIntChildLimit();
+    int countNodes();
 
-    int getMaxLeafNodeLimit();
+    int countHeight();
 
-    int getNumIndexNodesAccessed();
+    int getMaxIntChildNum();
 
-    void setNumIndexNodesAccessed(int setNumber);
+    int getMaxLeafNodeNum();
+
+    int getNodesAccessedNum();
+
+    void setNodesAccessedNum(int setNumber);
 
     void setRoot(Node *);
 
-    void display(Node *cursor);
+    void display(Node *currentNode);
 
-    void displaySingleNode(Node *cursor);
+    void displayCurrentNode(Node *currentNode);
 
-    void seqDisplay(Node *cursor);
+    void seqDisplay(Node *currentNode);
 
-    std::vector<Record *> *search(int key, bool printNode);
+    std::vector<Record *> *search(int key, bool printLeafNode);
 
-    Node *searchNode(int key, bool printNode);
+    Node *searchNode(int key, bool printLeafNode);
 
-    void insert(int key, Record *filePtr);
+    void insert(int key, Record *pRecord);
 
     void removeKey(int key);
 
-    void removeInternal(int x, Node *cursor, Node *child);
+    void removeInternal(int x, Node *currentNode, Node *child);
 
-    int countNodes();
-
-    int countDepth();
 };
 
 

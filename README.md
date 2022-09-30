@@ -14,7 +14,7 @@
 ```
 git clone https://github.com/leejunweisg/cz4031-project-1.git
 ```
-2. Open the root folder directly in CLion.
+2. Open the rootNode folder directly in CLion.
 3. During the first load, CLion should detect the CMake file and display a prompt. Simply accept the defaults.
 
 

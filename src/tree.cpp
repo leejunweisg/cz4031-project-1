@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Node *parent = nullptr;
+Node *parentNode = nullptr;
 
 Node::ptr::ptr() {
 }
@@ -13,7 +13,7 @@ Node::ptr::~ptr() {
 }
 
 Node::Node() {
-    this->isLeaf = false;
+    this->isLeafNode = false;
     this->pNextLeaf = nullptr;
 }
 
@@ -30,93 +30,93 @@ Tree::Tree(int blockSize) {
      *  This is just a simulation, in practice, the size of each Node is more complicated.
      */
     int n = (blockSize - 8) / (8 + 4);
-    this->maxIntChildLimit = n + 1;
-    this->maxLeafNodeLimit = n;
-    this->root = nullptr;
+    this->maxIntChildNum = n + 1;
+    this->maxLeafNodeNum = n;
+    this->rootNode = nullptr;
 
     cout << "Instantiating B+ Tree" << endl;
     cout << " -> Nodes bounded by block size of = " << blockSize << endl;
     cout << " -> Maximum number of keys in a node: n = " << n << endl;
-    cout << " -> Internal node max pointers to other nodes = " << this->maxIntChildLimit << endl;
-    cout << " -> Leaf node max key-record pointers = " << this->maxLeafNodeLimit << endl;
+    cout << " -> Internal node max pointers to other nodes = " << this->maxIntChildNum << endl;
+    cout << " -> Leaf node max key-record pointers = " << this->maxLeafNodeNum << endl;
     cout << "===========================================" << endl;
 }
 
-int Tree::getMaxIntChildLimit() {
-    return maxIntChildLimit;
+int Tree::getMaxIntChildNum() {
+    return maxIntChildNum;
 }
 
-int Tree::getMaxLeafNodeLimit() {
-    return maxLeafNodeLimit;
+int Tree::getMaxLeafNodeNum() {
+    return maxLeafNodeNum;
 }
 
-int Tree::getNumIndexNodesAccessed() {
-    return numIndexNodesAccessed;
+int Tree::getNodesAccessedNum() {
+    return nodesAccessedNum;
 }
 
-void Tree::setNumIndexNodesAccessed(int setNumber) {
-    numIndexNodesAccessed = setNumber;
+void Tree::setNodesAccessedNum(int setNumber) {
+    nodesAccessedNum = setNumber;
 }
 
 Node *Tree::getRoot() {
-    return this->root;
+    return this->rootNode;
 }
 
 void Tree::setRoot(Node *ptr) {
-    this->root = ptr;
+    this->rootNode = ptr;
 }
 
-Node *Tree::firstLeftNode(Node *cursor) {
-    if (cursor->isLeaf)
-        return cursor;
-    for (int i = 0; i < cursor->pointer.pNode.size(); i++)
-        if (cursor->pointer.pNode[i] != nullptr)
-            return firstLeftNode(cursor->pointer.pNode[i]);
+Node *Tree::firstLeftNode(Node *currentNode) {
+    if (currentNode->isLeafNode)
+        return currentNode;
+    for (int i = 0; i < currentNode->pointer.pNode.size(); i++)
+        if (currentNode->pointer.pNode[i] != nullptr)
+            return firstLeftNode(currentNode->pointer.pNode[i]);
 
     return nullptr;
 }
 
-Node **Tree::findParent(Node *cursor, Node *child) {
+Node **Tree::findParentNode(Node *currentNode, Node *child) {
     /*
-		Finds parent using depth first traversal and ignores leaf nodes as they cannot be parents
-		also ignores second last level because we will never find parent of a leaf node during insertion using this function
+		Finds parentNode using depth first traversal and ignores leaf nodes as they cannot be parents
+		also ignores second last level because we will never find parentNode of a leaf node during insertion using this function
 	*/
 
-    if (cursor->isLeaf || cursor->pointer.pNode[0]->isLeaf)
+    if (currentNode->isLeafNode || currentNode->pointer.pNode[0]->isLeafNode)
         return nullptr;
 
-    for (int i = 0; i < cursor->pointer.pNode.size(); i++) {
-        if (cursor->pointer.pNode[i] == child) {
-            parent = cursor;
+    for (int i = 0; i < currentNode->pointer.pNode.size(); i++) {
+        if (currentNode->pointer.pNode[i] == child) {
+            parentNode = currentNode;
         } else {
             //Commenting To Remove vector out of bound Error:
-            //new (&cursor->pointer.pNode) std::vector<Node*>;
-            Node *tmpCursor = cursor->pointer.pNode[i];
-            findParent(tmpCursor, child);
+            //new (&currentNode->pointer.pNode) std::vector<Node*>;
+            Node *temCurrent = currentNode->pointer.pNode[i];
+            findParentNode(temCurrent, child);
         }
     }
 
-    return &parent;
+    return &parentNode;
 }
 
 int Tree::countNodes() {
-    Node *cursor = root;
+    Node *currentNode = rootNode;
     int count = 0;
 
-    if (cursor == nullptr)
+    if (currentNode == nullptr)
         return count;
 
     queue<Node *> q;
-    q.push(cursor);
+    q.push(currentNode);
     count++;
 
     while (!q.empty()) {
-        auto sz = q.size();
-        for (int i = 0; i < sz; i++) {
+        auto qSize = q.size();
+        for (int i = 0; i < qSize; i++) {
             Node *u = q.front();
             q.pop();
 
-            if (!u->isLeaf) {
+            if (!u->isLeafNode) {
                 for (Node *v: u->pointer.pNode) {
                     q.push(v);
                     count++;
@@ -127,23 +127,23 @@ int Tree::countNodes() {
     return count;
 }
 
-int Tree::countDepth() {
-    int numOfLevels = 0;
+int Tree::countHeight() {
+    int heightOfTree = 0;
 
-    if (root == nullptr) {
+    if (rootNode == nullptr) {
         return 0;
     } else {
-        // start the cursor at the root node
-        Node *cursor = root;
+        // start the currentNode at the rootNode
+        Node *currentNode = rootNode;
 
         // traverse to the leaf node
-        while (!cursor->isLeaf) {
-            numOfLevels++;
-            cursor = cursor->pointer.pNode[0];
+        while (!currentNode->isLeafNode) {
+            heightOfTree++;
+            currentNode = currentNode->pointer.pNode[0];
         }
 
         // count leaf nodes level
-        numOfLevels++;
+        heightOfTree++;
     }
-    return numOfLevels;
+    return heightOfTree;
 }

@@ -4,16 +4,16 @@
 
 using namespace std;
 
-void Tree::display(Node *cursor) {
+void Tree::display(Node *currentNode) {
     /*
 		Depth First Display
-    if (cursor != NULL) {
-        for (int i = 0; i < cursor->keys.size(); i++)
-            cout << cursor->keys[i] << " ";
+    if (currentNode != NULL) {
+        for (int i = 0; i < currentNode->keys.size(); i++)
+            cout << currentNode->keys[i] << " ";
         cout << endl;
-        if (cursor->isLeaf != true) {
-            for (int i = 0; i < cursor->ptr2TreeOrData.ptr2Tree.size(); i++)
-                display(cursor->ptr2TreeOrData.ptr2Tree[i]);
+        if (currentNode->isLeafNode != true) {
+            for (int i = 0; i < currentNode->ptr2TreeOrData.ptr2Tree.size(); i++)
+                display(currentNode->ptr2TreeOrData.ptr2Tree[i]);
         }
     }
     */
@@ -21,9 +21,9 @@ void Tree::display(Node *cursor) {
     /*
         Level Order Display
     */
-    if (cursor == nullptr) return;
+    if (currentNode == nullptr) return;
     queue<Node *> q;
-    q.push(cursor);
+    q.push(currentNode);
 
     while (!q.empty()) {
         auto sz = q.size();
@@ -37,7 +37,7 @@ void Tree::display(Node *cursor) {
 
             cout << "|| ";//to seperate next adjacent nodes
 
-            if (!u->isLeaf) {
+            if (!u->isLeafNode) {
                 for (Node *v: u->pointer.pNode) {
                     q.push(v);
                 }
@@ -47,22 +47,22 @@ void Tree::display(Node *cursor) {
     }
 }
 
-void Tree::displaySingleNode(Node *cursor) {
+void Tree::displayCurrentNode(Node *currentNode) {
     // return if node is null
-    if (cursor == nullptr) return;
+    if (currentNode == nullptr) return;
 
     // print keys of the node
     cout << "{";
-    for (auto i = 0; i < cursor->keys.size(); i++) {
-        cout << cursor->keys.at(i);
-        if (i != cursor->keys.size() - 1)
+    for (auto i = 0; i < currentNode->keys.size(); i++) {
+        cout << currentNode->keys.at(i);
+        if (i != currentNode->keys.size() - 1)
             cout << ", ";
     }
     cout << "}" << endl;
 }
 
-void Tree::seqDisplay(Node *cursor) {
-    Node *firstLeft = firstLeftNode(cursor);
+void Tree::seqDisplay(Node *currentNode) {
+    Node *firstLeft = firstLeftNode(currentNode);
 
     if (firstLeft == nullptr) {
         cout << "No Data in the Database yet!" << endl;

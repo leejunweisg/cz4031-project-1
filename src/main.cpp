@@ -56,16 +56,16 @@ void experiment12(Tree *tree, Disk *disk) {
          << endl;
 
     // print experiment 2 outputs
-    cout << " -> Parameter N of the B+ Tree: " << (*tree).getMaxLeafNodeLimit() << endl;
+    cout << " -> Parameter N of the B+ Tree: " << (*tree).getMaxLeafNodeNum() << endl;
     cout << " -> No of nodes in the B+ Tree: " << (*tree).countNodes() << endl;
-    cout << " -> Height of the B+ Tree: " << (*tree).countDepth() << endl;
-    cout << " -> Content of root node: ";
-    (*tree).displaySingleNode((*tree).getRoot());
-    cout << " -> Content of root's first child node: ";
-    (*tree).displaySingleNode((*tree).getRoot()->pointer.pNode[0]);
+    cout << " -> Height of the B+ Tree: " << (*tree).countHeight() << endl;
+    cout << " -> Content of rootNode: ";
+    (*tree).displayCurrentNode((*tree).getRoot());
+    cout << " -> Content of rootNode's first child node: ";
+    (*tree).displayCurrentNode((*tree).getRoot()->pointer.pNode[0]);
 
     // reset number of index nodes accessed
-    tree->setNumIndexNodesAccessed(0);
+    tree->setNodesAccessedNum(0);
 
     cout << "===========================================" << endl;
 }
@@ -78,7 +78,7 @@ void experiment3(Tree *tree, Disk *disk) {
     vector<Record *> *result = tree->search(500, true);
 
     // print number of index nodes accessed during the search
-    cout << " -> No of Index nodes accessed: " << tree->getNumIndexNodesAccessed() << endl;
+    cout << " -> No of Index nodes accessed: " << tree->getNodesAccessedNum() << endl;
 
     // store all block numbers of the records into a vector
     vector<size_t> blockIDList;
@@ -110,7 +110,7 @@ void experiment3(Tree *tree, Disk *disk) {
     cout << " -> Average of averageRating: " << ((float) total / 10) / result->size() << endl;
 
     // reset number of index nodes accessed
-    tree->setNumIndexNodesAccessed(0);
+    tree->setNodesAccessedNum(0);
 
     cout << "===========================================" << endl;
 }
@@ -123,40 +123,40 @@ void experiment4(Tree *tree, Disk *disk) {
 
     // search for the leaf node that the key1 should reside in (it may not exist)
     cout << " -> Index Nodes accessed (first 5):" << endl;
-    Node *cursor = tree->searchNode(key1, true);
+    Node *currentNode = tree->searchNode(key1, true);
 
-    int indexNodesAccessed = tree->getNumIndexNodesAccessed();
+    int indexNodesAccessed = tree->getNodesAccessedNum();
     int total_average_rating = 0;
-    int idx = lower_bound(cursor->keys.begin(), cursor->keys.end(), key1) - cursor->keys.begin();
+    int idx = lower_bound(currentNode->keys.begin(), currentNode->keys.end(), key1) - currentNode->keys.begin();
 
     // store all block numbers of the records into a vector
     vector<size_t> blockIDList;
 
     bool finished = false;
-    while (cursor != nullptr && !finished) {
-        // print the current leaf node (at the cursor)
+    while (currentNode != nullptr && !finished) {
+        // print the currentNode leaf node (at the currentNode)
         if (indexNodesAccessed <= 5) {
-            tree->displaySingleNode(cursor);
+            tree->displayCurrentNode(currentNode);
         }
 
         indexNodesAccessed++;
 
-        // iterate through pointers in the current leaf node
-        for (int i = idx; i < cursor->keys.size(); i++) {
+        // iterate through pointers in the currentNode leaf node
+        for (int i = idx; i < currentNode->keys.size(); i++) {
 
             // when upper bound of the key is reached
-            if (cursor->keys.at(i) > key2) {
+            if (currentNode->keys.at(i) > key2) {
                 finished = true;
                 break;
             }
 
-            assert(key1 <= cursor->keys.at(i));
-            assert(key2 >= cursor->keys.at(i));
+            assert(key1 <= currentNode->keys.at(i));
+            assert(key2 >= currentNode->keys.at(i));
 
             // iterate through the records vector to
-            for (Record *record: cursor->pointer.pData.at(i)) {
+            for (Record *record: currentNode->pointer.pData.at(i)) {
                 // ensure all records here have the same key (tree did not wrongly index a record)
-                assert(record->numVotes == cursor->keys.at(i));
+                assert(record->numVotes == currentNode->keys.at(i));
 
                 // accumulate the total averageRating
                 total_average_rating += record->averageRating;
@@ -170,7 +170,7 @@ void experiment4(Tree *tree, Disk *disk) {
         idx = 0;
 
         // move to the next leaf node
-        cursor = cursor->pNextLeaf;
+        currentNode = currentNode->pNextLeaf;
     }
 
     cout << " -> No of Index Nodes Accessed: " << indexNodesAccessed << endl;
@@ -194,7 +194,7 @@ void experiment4(Tree *tree, Disk *disk) {
     // compute and print average of "averageRating"
     cout << " -> Average of averageRating: " << ((float) total_average_rating / 10) / blockIDList.size() << endl;
 
-    tree->setNumIndexNodesAccessed(0);
+    tree->setNodesAccessedNum(0);
 
     cout << "===========================================" << endl;
 }
@@ -207,23 +207,23 @@ void experiment5(Tree *tree, Disk *disk) {
 
     tree->removeKey(1000);
 
-    // current number of nodes after removal of key=100
+    // currentNode number of nodes after removal of key=100
     int numUpdatedNodes = tree->countNodes();
 
     cout << " -> No of times that a node is deleted (or two nodes are merged): " << numNodes - numUpdatedNodes << endl;
     cout << " -> No of nodes in the updated B+ tree: " << numUpdatedNodes << endl;
-    cout << " -> Height of the updated B+ tree: " << tree->countDepth() << endl;
-    cout << " -> Content of root node: ";
-    tree->displaySingleNode(tree->getRoot());
-    cout << " -> Content of root's first child node: ";
-    tree->displaySingleNode(tree->getRoot()->pointer.pNode[0]);
+    cout << " -> Height of the updated B+ tree: " << tree->countHeight() << endl;
+    cout << " -> Content of rootNode: ";
+    tree->displayCurrentNode(tree->getRoot());
+    cout << " -> Content of rootNode's first child node: ";
+    tree->displayCurrentNode(tree->getRoot()->pointer.pNode[0]);
 
     // verify that the key has been deleted
     vector<Record *> *result = tree->search(1000, false);
     assert(result == nullptr);
 
     // reset number of index nodes accessed
-    tree->setNumIndexNodesAccessed(0);
+    tree->setNodesAccessedNum(0);
 
     cout << "===========================================" << endl;
 }

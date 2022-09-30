@@ -56,7 +56,7 @@ Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, i
     // increment recordIdx
     recordIdx++;
 
-    // if the current block is full after this insertion, move to next block and reset recordIdx to 0
+    // if the currentNode block is full after this insertion, move to next block and reset recordIdx to 0
     if (recordIdx == maxRecordsPerBlock) {
         blockIdx++;
         recordIdx = 0;

@@ -6,87 +6,87 @@
 
 using namespace std;
 
-vector<Record *> *Tree::search(int key, bool printNode) {
+vector<Record *> *Tree::search(int key, bool printLeafNode) {
     /*
      * Searches the B+ tree for a key and returns the corresponding pointer to a vector of Record pointers.
      * If the key is not found in the tree, a nullptr is returned.
      */
 
     // check if the B+ tree is empty
-    if (root == nullptr) {
+    if (rootNode == nullptr) {
         return nullptr;
     } else {
-        // start the cursor at the root node
-        Node *cursor = root;
+        // start the currentNode at the rootNode
+        Node *currentNode = rootNode;
 
         // traverse to the leaf node
-        while (!cursor->isLeaf) {
-            int idx = upper_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
+        while (!currentNode->isLeafNode) {
+            int idx = upper_bound(currentNode->keys.begin(), currentNode->keys.end(), key) - currentNode->keys.begin();
 
             // count accesses for intermediate internal nodes
-            numIndexNodesAccessed++;
+            nodesAccessedNum++;
 
             // print intermediate internal nodes
-            if (printNode) {
-                displaySingleNode(cursor);
+            if (printLeafNode) {
+                displayCurrentNode(currentNode);
             }
 
-            cursor = cursor->pointer.pNode[idx];
+            currentNode = currentNode->pointer.pNode[idx];
         }
 
         // print the leaf node
-        if (printNode) {
-            displaySingleNode(cursor);
+        if (printLeafNode) {
+            displayCurrentNode(currentNode);
         }
 
         // count the access for the leaf node
-        numIndexNodesAccessed++;
+        nodesAccessedNum++;
 
         // binary search of the keys in the leaf node
-        int idx = lower_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
+        int idx = lower_bound(currentNode->keys.begin(), currentNode->keys.end(), key) - currentNode->keys.begin();
 
         // key not found
-        if (idx == cursor->keys.size() || cursor->keys[idx] != key) {
+        if (idx == currentNode->keys.size() || currentNode->keys[idx] != key) {
             return nullptr;
         }
 
         // return the corresponding pointer of the key
-        return &cursor->pointer.pData[idx];
+        return &currentNode->pointer.pData[idx];
     }
 }
 
-Node *Tree::searchNode(int key, bool printNode) {
+Node *Tree::searchNode(int key, bool printLeafNode) {
     /*
      * Searches the B+ tree for a key and returns the corresponding leaf node that the key resides in.
      * If the key is not found in the tree, a nullptr is returned.
      */
 
     // check if the B+ tree is empty
-    if (root == nullptr) {
+    if (rootNode == nullptr) {
         return nullptr;
     } else {
-        // start the cursor at the root node
-        Node *cursor = root;
+        // start the currentNode at the rootNode
+        Node *currentNode = rootNode;
 
         // traverse to the leaf node
-        while (!cursor->isLeaf) {
-            int idx = upper_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
+        while (!currentNode->isLeafNode) {
+            int idx = upper_bound(currentNode->keys.begin(), currentNode->keys.end(), key) - currentNode->keys.begin();
 
             // count accesses for intermediate internal nodes
-            numIndexNodesAccessed++;
+            nodesAccessedNum++;
 
             // print intermediate internal nodes
-            if (printNode) {
-                displaySingleNode(cursor);
+            if (printLeafNode) {
+                displayCurrentNode(currentNode);
             }
 
-            cursor = cursor->pointer.pNode[idx];
+            currentNode = currentNode->pointer.pNode[idx];
         }
 
         // count the access for the leaf node
-        numIndexNodesAccessed++;
+        nodesAccessedNum++;
 
         // return the leaf node
-        return cursor;
+        return currentNode;
     }
 }

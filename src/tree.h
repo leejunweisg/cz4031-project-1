@@ -56,11 +56,7 @@ public:
 
     void setRoot(Node *);
 
-    void display(Node *currentNode);
-
     void displayCurrentNode(Node *currentNode);
-
-    void seqDisplay(Node *currentNode);
 
     std::vector<Record *> *search(int key, bool printLeafNode);
 

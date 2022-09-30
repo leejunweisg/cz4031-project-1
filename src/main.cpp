@@ -19,7 +19,7 @@ void experiment12(Tree *tree, Disk *disk) {
     cout << "EXPERIMENT 1 & 2" << endl;
 
     // declare pointer to hold newly created records
-    Record *new_record = nullptr;
+    Record *newRecord = nullptr;
 
     // read and parse the data file from "../data/data.tsv"
     cout << "Inserting records from the data file into disk and building index..." << endl;
@@ -40,11 +40,11 @@ void experiment12(Tree *tree, Disk *disk) {
         getline(iss, numVotes, '\t');
 
         // insert into disk
-        new_record = (*disk).insertRecord(tconst,
+        newRecord = (*disk).insertRecord(tconst,
                                           (unsigned char) (stof(averageRating) * 10),
                                           stoi(numVotes));
         // insert into tree
-        (*tree).insert(new_record->numVotes, new_record);
+        (*tree).insert(newRecord->numVotes, newRecord);
         count++;
     }
 

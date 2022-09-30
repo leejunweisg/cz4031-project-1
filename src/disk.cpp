@@ -46,12 +46,12 @@ Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, i
     }
 
     // get pointer to the new record
-    Record *new_record = getRecord(blockIdx, recordIdx);
+    Record *newRecord = getRecord(blockIdx, recordIdx);
 
     // set values into the  new record
-    strncpy(new_record->tconst, tconst.c_str(), sizeof(new_record->tconst) - 1);
-    new_record->numVotes = numVotes;
-    new_record->averageRating = avgRating;
+    strncpy(newRecord->tconst, tconst.c_str(), sizeof(newRecord->tconst) - 1);
+    newRecord->numVotes = numVotes;
+    newRecord->averageRating = avgRating;
 
     // increment recordIdx
     recordIdx++;
@@ -63,7 +63,7 @@ Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, i
     }
 
     // return a pointer to the inserted record
-    return new_record;
+    return newRecord;
 }
 
 

@@ -35,11 +35,6 @@ public:
 
     void printBlock(size_t aBlockIdx);
 
-    // misc
-    size_t getMaxRecordsPerBlock();
-
-    size_t getMaxBlocksInDisk();
-
     size_t getBlocksUsed();
 };
 

@@ -105,14 +105,6 @@ void Disk::printBlock(size_t aBlockIdx) {
 }
 
 // misc
-size_t Disk::getMaxRecordsPerBlock() {
-    return maxRecordsPerBlock;
-}
-
-size_t Disk::getMaxBlocksInDisk() {
-    return maxBlocksInDisk;
-}
-
 size_t Disk::getBlocksUsed() {
     return blockIdx + 1;
 }

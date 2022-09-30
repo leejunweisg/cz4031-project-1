@@ -6,7 +6,7 @@
 
 using namespace std;
 
-vector<Record *> *Tree::search(int key, bool printLeafNode) {
+vector<Record *> *Tree::search(int key, bool printNode) {
     /*
      * Searches the B+ tree for a key and returns the corresponding pointer to a vector of Record pointers.
      * If the key is not found in the tree, a nullptr is returned.
@@ -27,7 +27,7 @@ vector<Record *> *Tree::search(int key, bool printLeafNode) {
             nodesAccessedNum++;
 
             // print intermediate internal nodes
-            if (printLeafNode) {
+            if (printNode) {
                 displayCurrentNode(currentNode);
             }
 
@@ -35,7 +35,7 @@ vector<Record *> *Tree::search(int key, bool printLeafNode) {
         }
 
         // print the leaf node
-        if (printLeafNode) {
+        if (printNode) {
             displayCurrentNode(currentNode);
         }
 
@@ -55,7 +55,7 @@ vector<Record *> *Tree::search(int key, bool printLeafNode) {
     }
 }
 
-Node *Tree::searchNode(int key, bool printLeafNode) {
+Node *Tree::searchNode(int key, bool printNode) {
     /*
      * Searches the B+ tree for a key and returns the corresponding leaf node that the key resides in.
      * If the key is not found in the tree, a nullptr is returned.
@@ -76,7 +76,7 @@ Node *Tree::searchNode(int key, bool printLeafNode) {
             nodesAccessedNum++;
 
             // print intermediate internal nodes
-            if (printLeafNode) {
+            if (printNode) {
                 displayCurrentNode(currentNode);
             }
 

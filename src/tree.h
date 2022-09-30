@@ -58,9 +58,9 @@ public:
 
     void displayCurrentNode(Node *currentNode);
 
-    std::vector<Record *> *search(int key, bool printLeafNode);
+    std::vector<Record *> *search(int key, bool printNode);
 
-    Node *searchNode(int key, bool printLeafNode);
+    Node *searchNode(int key, bool printNode);
 
     void insert(int key, Record *pRecord);
 

@@ -56,7 +56,7 @@ void experiment12(Tree *tree, Disk *disk) {
          << endl;
 
     // print experiment 2 outputs
-    cout << " -> Parameter N of the B+ Tree: " << (*tree).getMaxLeafNodeNum() << endl;
+    cout << " -> Parameter N of the B+ Tree: " << (*tree).getN() << endl;
     cout << " -> No of nodes in the B+ Tree: " << (*tree).countNodes() << endl;
     cout << " -> Height of the B+ Tree: " << (*tree).countHeight() << endl;
     cout << " -> Content of rootNode: ";

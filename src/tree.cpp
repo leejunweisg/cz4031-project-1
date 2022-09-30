@@ -29,25 +29,24 @@ Tree::Tree(int blockSize) {
      *
      *  This is just a simulation, in practice, the size of each Node is more complicated.
      */
-    int n = (blockSize - 8) / (8 + 4);
-    this->maxIntChildNum = n + 1;
-    this->maxLeafNodeNum = n;
-    this->rootNode = nullptr;
+    n = (blockSize - 8) / (8 + 4);
+    maxInternalChild = n + 1;
+    rootNode = nullptr;
 
     cout << "Instantiating B+ Tree" << endl;
     cout << " -> Nodes bounded by block size of = " << blockSize << endl;
     cout << " -> Maximum number of keys in a node: n = " << n << endl;
-    cout << " -> Internal node max pointers to other nodes = " << this->maxIntChildNum << endl;
-    cout << " -> Leaf node max key-record pointers = " << this->maxLeafNodeNum << endl;
+    cout << " -> Internal node max pointers to other nodes = " << maxInternalChild << endl;
+    cout << " -> Leaf node max key-record pointers = " << n << endl;
     cout << "===========================================" << endl;
 }
 
-int Tree::getMaxIntChildNum() {
-    return maxIntChildNum;
+int Tree::getMaxInternalChild() {
+    return maxInternalChild;
 }
 
-int Tree::getMaxLeafNodeNum() {
-    return maxLeafNodeNum;
+int Tree::getN() {
+    return n;
 }
 
 int Tree::getNodesAccessedNum() {

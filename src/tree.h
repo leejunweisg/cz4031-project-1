@@ -26,8 +26,8 @@ public:
 
 class Tree {
 private:
-    int maxIntChildNum;
-    int maxLeafNodeNum;
+    int maxInternalChild;
+    int n;
     int nodesAccessedNum;
     Node *rootNode;
 
@@ -46,9 +46,9 @@ public:
 
     int countHeight();
 
-    int getMaxIntChildNum();
+    int getMaxInternalChild();
 
-    int getMaxLeafNodeNum();
+    int getN();
 
     int getNodesAccessedNum();
 

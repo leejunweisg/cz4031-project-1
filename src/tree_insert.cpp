@@ -46,7 +46,7 @@ void Tree::insert(int key, Record *pRecord) {  //in Leaf Node
         }
 
         // check if the currentNode node at the currentNode has space for another key-pointer pair
-        if (currentNode->keys.size() < maxLeafNodeNum) {
+        if (currentNode->keys.size() < n) {
             // the currentNode node is not full, so we have to find the correct position to insert it
             int idx = upper_bound(currentNode->keys.begin(), currentNode->keys.end(), key) - currentNode->keys.begin();
 
@@ -101,15 +101,15 @@ void Tree::insert(int key, Record *pRecord) {  //in Leaf Node
             newLeafNode->pNextLeaf = temp;
 
             // resize and copy key-pointer pairs into the old node
-            currentNode->keys.resize((maxLeafNodeNum) / 2 + 1);
-            currentNode->pointer.pData.resize((maxLeafNodeNum) / 2 + 1);
-            for (i = 0; i <= (maxLeafNodeNum) / 2; i++) {
+            currentNode->keys.resize((n) / 2 + 1);
+            currentNode->pointer.pData.resize((n) / 2 + 1);
+            for (i = 0; i <= (n) / 2; i++) {
                 currentNode->keys[i] = virtualNode[i];
                 currentNode->pointer.pData[i] = virtualDataNode[i];
             }
 
             // copy key-pointer pairs into the newly created node
-            for (i = (maxLeafNodeNum) / 2 + 1; i < virtualNode.size(); i++) {
+            for (i = (n) / 2 + 1; i < virtualNode.size(); i++) {
                 newLeafNode->keys.push_back(virtualNode[i]);
                 newLeafNode->pointer.pData.push_back(virtualDataNode[i]);
             }
@@ -132,7 +132,7 @@ void Tree::insert(int key, Record *pRecord) {  //in Leaf Node
 
 void Tree::insertInternal(int x, Node **currentNode, Node **child) {  //in Internal Nodes
     // check if the currentNode node is full
-    if ((*currentNode)->keys.size() < maxIntChildNum - 1) {
+    if ((*currentNode)->keys.size() < maxInternalChild - 1) {
         // the currentNode node is not full, so we have to find the correct position to insert it
         int idx = upper_bound((*currentNode)->keys.begin(), (*currentNode)->keys.end(), x) - (*currentNode)->keys.begin();
 

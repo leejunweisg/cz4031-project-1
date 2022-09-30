@@ -75,7 +75,7 @@ void Tree::removeKey(int x) {
     cout << "Removed '" << x << "' from the B+ Tree successfully!" << endl;
 
     // return if the B+ tree is still balanced
-    if (currentNode->keys.size() >= (getMaxLeafNodeNum() + 1) / 2) {
+    if (currentNode->keys.size() >= (getN() + 1) / 2) {
         return;
     }
 
@@ -84,7 +84,7 @@ void Tree::removeKey(int x) {
         Node *leftNode = parentNode->pointer.pNode[parentLeft];
 
         // check if left sibling has extra key to lend
-        if (leftNode->keys.size() >= (getMaxLeafNodeNum() + 1) / 2 + 1) {
+        if (leftNode->keys.size() >= (getN() + 1) / 2 + 1) {
 
             // transfer the largest key from the left Sibling
             auto maxIdx = leftNode->keys.size() - 1;
@@ -106,7 +106,7 @@ void Tree::removeKey(int x) {
         Node *rightNode = parentNode->pointer.pNode[parentRight];
 
         // check if right sibling has extra key to lend
-        if (rightNode->keys.size() >= (getMaxLeafNodeNum() + 1) / 2 + 1) {
+        if (rightNode->keys.size() >= (getN() + 1) / 2 + 1) {
 
             // transfer the smallest key from the right Sibling
             int minIdx = 0;
@@ -208,7 +208,7 @@ void Tree::removeInternal(int x, Node *currentNode, Node *child) {
     currentNode->pointer.pNode.resize(currentNode->pointer.pNode.size() - 1);
 
     // return if the B+ tree is still balanced
-    if (currentNode->keys.size() >= (getMaxIntChildNum() + 1) / 2 - 1) {
+    if (currentNode->keys.size() >= (getMaxInternalChild() + 1) / 2 - 1) {
         return;
     }
 
@@ -235,7 +235,7 @@ void Tree::removeInternal(int x, Node *currentNode, Node *child) {
         Node *leftNode = parentNode->pointer.pNode[parentLeft];
 
         // check if left sibling has extra key to lend
-        if (leftNode->keys.size() >= (getMaxIntChildNum() + 1) / 2) {
+        if (leftNode->keys.size() >= (getMaxInternalChild() + 1) / 2) {
 
             // transfer the key from left sibling through parentNode
             auto maxIdxKey = leftNode->keys.size() - 1;
@@ -258,7 +258,7 @@ void Tree::removeInternal(int x, Node *currentNode, Node *child) {
         Node *rightNode = parentNode->pointer.pNode[parentRight];
 
         // check if right sibling has extra key to lend
-        if (rightNode->keys.size() >= (getMaxIntChildNum() + 1) / 2) {
+        if (rightNode->keys.size() >= (getMaxInternalChild() + 1) / 2) {
 
             // transfer the key from right sibling through parentNode
             auto maxIdxKey = rightNode->keys.size() - 1;

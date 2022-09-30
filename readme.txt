@@ -1,3 +1,12 @@
+[OPTION 1] CLion
+Requirements: You need to have CLion installed.
+
+1. Open the root folder in CLion.
+2. During the first load, CLion should detect the CMake file and display a prompt. Simply accept the defaults.
+3. Build and run the project.
+
+
+[OPTION 2] g++
 Requirements: You need to have g++ installed.
 
 Steps to run the program:

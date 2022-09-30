@@ -13,9 +13,8 @@ public:
     union ptr {
         std::vector<Node *> pNode;
         std::vector<std::vector<Record *>> pData;
-
-        ptr();   // To remove the error !?
-        ~ptr();  // To remove the error !?
+        ptr();
+        ~ptr();
     } pointer;
 
     friend class Tree;

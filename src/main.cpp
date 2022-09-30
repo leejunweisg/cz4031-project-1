@@ -155,15 +155,9 @@ void experiment4(Tree *tree, Disk *disk) {
 
             // iterate through the records vector to
             for (Record *record: cursor->pointer.pData.at(i)) {
-                // detect abnormal lines, print debugging info
-                if ((record->numVotes < key1) || (record->numVotes > key2)) {
-                    cout << "!!!!!! Abnormal record found !!!!!!" << endl;
-                    disk->printRecord(record);
-                    cout << "Current key: " << cursor->keys.at(i) << endl;
-                    cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-                    continue;
+                // ensure all records here have the same key (tree did not wrongly index a record)
+                assert(record->numVotes == cursor->keys.at(i));
 
-                }
                 // accumulate the total averageRating
                 total_average_rating += record->averageRating;
 

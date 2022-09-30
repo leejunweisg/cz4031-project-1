@@ -102,7 +102,7 @@ void Tree::insert(int key, Record *filePtr) {  //in Leaf Node
 
             // resize and copy key-pointer pairs into the old node
             cursor->keys.resize((maxLeafNodeLimit) / 2 + 1);
-            cursor->pointer.pData.reserve((maxLeafNodeLimit) / 2 + 1);
+            cursor->pointer.pData.resize((maxLeafNodeLimit) / 2 + 1);
             for (i = 0; i <= (maxLeafNodeLimit) / 2; i++) {
                 cursor->keys[i] = virtualNode[i];
                 cursor->pointer.pData[i] = virtualDataNode[i];
@@ -189,7 +189,7 @@ void Tree::insertInternal(int x, Node **cursor, Node **child) {  //in Internal N
         // resize and copy key-pointer pairs into the old node
         (*cursor)->keys.resize(partitionIdx);
         (*cursor)->pointer.pNode.resize(partitionIdx + 1);
-        (*cursor)->pointer.pNode.reserve(partitionIdx + 1);
+        (*cursor)->pointer.pNode.resize(partitionIdx + 1);
         for (int i = 0; i < partitionIdx; i++) {
             (*cursor)->keys[i] = virtualKeyNode[i];
         }

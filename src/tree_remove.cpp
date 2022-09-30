@@ -5,6 +5,9 @@
 using namespace std;
 
 void Tree::removeKey(int x) {
+    /*
+     * Removes a key from the B+ tree.
+     */
     Node *rootNode = getRoot();
 
     // check if the B+ tree is empty
@@ -158,6 +161,9 @@ void Tree::removeKey(int x) {
 }
 
 void Tree::removeInternal(int x, Node *currentNode, Node *child) {
+    /*
+     * Removes key from an internal node
+     */
     Node *rootNode = getRoot();
 
     // check if the key to be deleted is in the rootNode

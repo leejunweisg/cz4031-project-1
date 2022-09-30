@@ -4,6 +4,10 @@
 using namespace std;
 
 void Tree::displayCurrentNode(Node *currentNode) {
+    /*
+     * Displays the keys stored in the given node.
+     */
+
     // return if node is null
     if (currentNode == nullptr) return;
 

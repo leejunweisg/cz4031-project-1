@@ -1,7 +1,3 @@
-//
-// Created by leejunwei on 27/9/2022.
-//
-
 #ifndef DTYPES_H
 #define DTYPES_H
 

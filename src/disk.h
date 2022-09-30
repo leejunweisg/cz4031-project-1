@@ -1,7 +1,3 @@
-//
-// Created by leejunwei on 26/9/2022.
-//
-
 #ifndef DB_PROJECT_DISK_H
 #define DB_PROJECT_DISK_H
 
@@ -38,4 +34,4 @@ public:
     size_t getBlocksUsed();
 };
 
-#endif //DB_PROJECT_DISK_H
+#endif

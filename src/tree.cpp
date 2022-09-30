@@ -65,22 +65,10 @@ void Tree::setRoot(Node *ptr) {
     this->rootNode = ptr;
 }
 
-Node *Tree::firstLeftNode(Node *currentNode) {
-    if (currentNode->isLeafNode)
-        return currentNode;
-    for (int i = 0; i < currentNode->pointer.pNode.size(); i++)
-        if (currentNode->pointer.pNode[i] != nullptr)
-            return firstLeftNode(currentNode->pointer.pNode[i]);
-
-    return nullptr;
-}
-
 Node **Tree::findParentNode(Node *currentNode, Node *child) {
     /*
-		Finds parentNode using depth first traversal and ignores leaf nodes as they cannot be parents
-		also ignores second last level because we will never find parentNode of a leaf node during insertion using this function
-	*/
-
+     * Finds and return the parent node.
+	 */
     if (currentNode->isLeafNode || currentNode->pointer.pNode[0]->isLeafNode)
         return nullptr;
 
@@ -88,8 +76,6 @@ Node **Tree::findParentNode(Node *currentNode, Node *child) {
         if (currentNode->pointer.pNode[i] == child) {
             parentNode = currentNode;
         } else {
-            //Commenting To Remove vector out of bound Error:
-            //new (&currentNode->pointer.pNode) std::vector<Node*>;
             Node *temCurrent = currentNode->pointer.pNode[i];
             findParentNode(temCurrent, child);
         }
@@ -99,6 +85,9 @@ Node **Tree::findParentNode(Node *currentNode, Node *child) {
 }
 
 int Tree::countNodes() {
+    /*
+     * Counts the number of nodes in the b+ tree.
+     */
     Node *currentNode = rootNode;
     int count = 0;
 
@@ -127,8 +116,12 @@ int Tree::countNodes() {
 }
 
 int Tree::countHeight() {
+    /*
+     * Counts the height of the B+ tree.
+     */
     int heightOfTree = 0;
 
+    // checks if the tree is empty
     if (rootNode == nullptr) {
         return 0;
     } else {

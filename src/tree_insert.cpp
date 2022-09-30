@@ -7,14 +7,8 @@ using namespace std;
 
 void Tree::insert(int key, Record *pRecord) {  //in Leaf Node
     /*
-		1. If the node has an empty space, insert the key/reference pair into the node.
-		2. If the node is already full, split it into two nodes, distributing the keys
-		evenly between the two nodes. If the node is a leaf, take a copy of the minimum
-		value in the second of these two nodes and repeat this insertion algorithm to
-		insert it into the parentNode. If the node is a non-leaf, exclude the middle
-		value during the split and repeat this insertion algorithm to insert this excluded
-		value into the parentNode.
-	*/
+     * Inserts a key-pointer pair into the B+ tree index.
+     */
 
     // search the tree for the key
     vector<Record *> *result = search(key, false);
@@ -131,7 +125,11 @@ void Tree::insert(int key, Record *pRecord) {  //in Leaf Node
     }
 }
 
-void Tree::insertInternal(int x, Node **currentNode, Node **child) {  //in Internal Nodes
+void Tree::insertInternal(int x, Node **currentNode, Node **child) {
+    /*
+     * Inserts a key into an internal node
+     */
+
     // check if the currentNode node is full
     if ((*currentNode)->keys.size() < maxInternalChild - 1) {
         // the currentNode node is not full, so we have to find the correct position to insert it

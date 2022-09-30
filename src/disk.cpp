@@ -7,6 +7,9 @@
 using namespace std;
 
 Disk::Disk(size_t aDiskSize, size_t aBlockSize) {
+    /*
+     * Constructor for a Disk instances
+     */
 
     // set disk size and block size
     diskSize = aDiskSize;
@@ -33,12 +36,12 @@ Disk::Disk(size_t aDiskSize, size_t aBlockSize) {
 
 Record *Disk::insertRecord(const std::string &tconst, unsigned char avgRating, int numVotes) {
     /*
-        * Inserts a record at the next available memory location pointed by blockIdx and recordIdx
-        *
-        * Returns:
-        * -> If successful, the pointer to the inserted record (useful for building b+ tree) is returned
-        * -> If disk is full, return nullptr.
-        */
+    * Inserts a record at the next available memory location pointed by blockIdx and recordIdx
+    *
+    * Returns:
+    * -> If successful, the pointer to the inserted record (useful for building b+ tree) is returned
+    * -> If disk is full, return nullptr.
+    */
 
     // if disk is full, return nullptr
     if (blockIdx >= maxBlocksInDisk) {

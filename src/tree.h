@@ -34,8 +34,6 @@ private:
 
     Node **findParentNode(Node *currentNode, Node *child);
 
-    Node *firstLeftNode(Node *currentNode);
-
 public:
     explicit Tree(int blockSize);
 

@@ -41,8 +41,8 @@ void experiment12(Tree *tree, Disk *disk) {
 
         // insert into disk
         newRecord = (*disk).insertRecord(tconst,
-                                          (unsigned char) (stof(averageRating) * 10),
-                                          stoi(numVotes));
+                                         (unsigned char) (stof(averageRating) * 10),
+                                         stoi(numVotes));
         // insert into tree
         (*tree).insert(newRecord->numVotes, newRecord);
         count++;
@@ -71,6 +71,9 @@ void experiment12(Tree *tree, Disk *disk) {
 }
 
 void experiment3(Tree *tree, Disk *disk) {
+    /*
+     * Retrieve records with numVotes = 500 and print statistics
+     */
     cout << "EXPERIMENT 3" << endl;
 
     // retrieve records with numVotes = 500
@@ -116,6 +119,9 @@ void experiment3(Tree *tree, Disk *disk) {
 }
 
 void experiment4(Tree *tree, Disk *disk) {
+    /*
+     * Retrieve records with numVotes from 30,000 to 40,000 and print statistics
+     */
     cout << "EXPERIMENT 4" << endl;
 
     int key1 = 30000;
@@ -200,6 +206,9 @@ void experiment4(Tree *tree, Disk *disk) {
 }
 
 void experiment5(Tree *tree, Disk *disk) {
+    /*
+     * Remove the records with numVotes = 1,000, update the tree and print statistics
+     */
     cout << "EXPERIMENT 5" << endl;
 
     // original number of nodes in the tree
